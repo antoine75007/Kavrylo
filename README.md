@@ -1,2 +1,1 @@
-# Kavrylo
-////
+Kavrylo is a modern real-time messaging platform designed for speed, clarity, and privacy. Built with React, TailwindCSS, and Supabase, it delivers a clean, scalable chat experience inspired by modern SaaS products like Slack and Discord.

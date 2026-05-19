@@ -9,7 +9,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500&display=swap" rel="stylesheet" />
 <style>
-
 /* ─── RESET ─── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { font-size: 16px; scroll-behavior: smooth; }
@@ -68,25 +67,6 @@ nav {
   letter-spacing: -0.01em;
   color: var(--ink);
 }
-
-.nav-center {
-  display: flex;
-  gap: 0.25rem;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.nav-center a {
-  font-size: 0.8125rem;
-  color: var(--ink-3);
-  padding: 0.35rem 0.85rem;
-  border-radius: 6px;
-  font-weight: 400;
-  letter-spacing: 0.01em;
-  transition: color 0.15s, background 0.15s;
-}
-.nav-center a:hover { color: var(--ink); background: rgba(10,10,10,0.05); }
 
 .nav-right {
   display: flex;
@@ -541,15 +521,16 @@ section { padding: clamp(5rem, 10vw, 9rem) clamp(1.5rem, 6vw, 4rem); }
 .g3-cell.active { background: var(--ink); }
 .g3-cell.mid { background: rgba(10,10,10,0.2); }
 
-/* ─── CTA SECTION ─── */
-#cta {
+/* ─── FOOTER & CTA BANNER INTEGRATION ─── */
+footer {
   background: var(--ink);
   color: var(--white);
+  padding: clamp(5rem, 10vw, 9rem) clamp(1.5rem, 6vw, 4rem) 2.5rem;
 }
 
 .cta-inner {
   max-width: 900px;
-  margin: 0 auto;
+  margin: 0 auto 5rem;
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 3rem;
@@ -577,6 +558,12 @@ section { padding: clamp(5rem, 10vw, 9rem) clamp(1.5rem, 6vw, 4rem); }
   border: none;
   border-radius: 10px;
   white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  transition: background 0.18s var(--ease-out), transform 0.15s, box-shadow 0.18s;
+  text-decoration: none;
 }
 .btn-cta:hover {
   background: var(--off-white);
@@ -584,74 +571,19 @@ section { padding: clamp(5rem, 10vw, 9rem) clamp(1.5rem, 6vw, 4rem); }
   box-shadow: 0 8px 24px rgba(0,0,0,0.35);
 }
 
-/* ─── FOOTER ─── */
-footer {
-  background: var(--off-white);
-  border-top: 1px solid var(--rule);
-  padding: 2.5rem clamp(1.5rem, 6vw, 4rem);
-}
-
-.footer-top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 2rem;
-  flex-wrap: wrap;
-  margin-bottom: 2.5rem;
-  padding-bottom: 2.5rem;
-  border-bottom: 1px solid var(--rule);
-}
-
-.footer-brand {
-  font-family: var(--f-serif);
-  font-size: 1.25rem;
-  letter-spacing: -0.01em;
-  color: var(--ink);
-  margin-bottom: 0.5rem;
-}
-
-.footer-tagline {
-  font-size: 0.8125rem;
-  color: var(--ink-4);
-  font-weight: 300;
-}
-
-.footer-cols {
-  display: flex;
-  gap: clamp(2rem, 5vw, 5rem);
-  flex-wrap: wrap;
-}
-
-.footer-col h4 {
-  font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink-4);
-  margin-bottom: 1rem;
-}
-
-.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
-
-.footer-col a {
-  font-size: 0.8125rem;
-  color: var(--ink-3);
-  font-weight: 300;
-  transition: color 0.15s;
-}
-.footer-col a:hover { color: var(--ink); }
-
 .footer-bottom {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
   flex-wrap: wrap;
+  padding-top: 2.5rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
 }
 
 .footer-copy {
   font-size: 0.75rem;
-  color: var(--ink-4);
+  color: rgba(255,255,255,0.5);
   font-weight: 300;
 }
 
@@ -662,13 +594,13 @@ footer {
 
 .footer-legal-links a {
   font-size: 0.75rem;
-  color: var(--ink-4);
+  color: rgba(255,255,255,0.5);
   font-weight: 300;
   transition: color 0.15s;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
-.footer-legal-links a:hover { color: var(--ink-2); }
+.footer-legal-links a:hover { color: var(--white); }
 
 /* ─── SCROLL REVEAL ─── */
 .reveal {
@@ -688,7 +620,6 @@ footer {
 
 /* ─── RESPONSIVE ─── */
 @media (max-width: 720px) {
-  .nav-center { display: none; }
   .nav-link { display: none; }
 
   .feat-item {
@@ -700,47 +631,33 @@ footer {
   .cta-inner {
     grid-template-columns: 1fr;
     gap: 2rem;
+    margin-bottom: 3.5rem;
   }
   .btn-cta { align-self: flex-start; }
 
-  .footer-top { flex-direction: column; }
   .footer-bottom { flex-direction: column; align-items: flex-start; }
 }
-
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <a href="index.html" class="nav-logo">Kavrylo</a>
-
-  <div class="nav-center">
-    <a href="#features">Product</a>
-    <a href="#security">Security</a>
-  </div>
-
   <div class="nav-right">
     <a href="#" class="nav-link">Log in</a>
-    <a href="#" class="btn btn-solid btn-hero">Get started</a>
+    <a href="#" class="btn btn-solid" style="padding:0.45rem 1.1rem;">Create an account</a>
   </div>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
   <p class="hero-eyebrow">Introducing Kavrylo</p>
-
   <h1>Messaging<br/><em>as it should be.</em></h1>
-
   <p class="hero-sub">No notifications hell. No feature bloat. Kavrylo is the messaging app that lets you talk to people — and nothing else.</p>
-
   <div class="hero-ctas">
     <a href="#" class="btn btn-solid btn-hero">Start for free</a>
     <a href="#features" class="btn btn-ghost btn-hero">See how it works</a>
   </div>
-
   <p class="hero-note">No account required to try. No credit card. No catch.</p>
-
   <div class="preview-wrap">
     <div class="chat-shell">
       <div class="chat-bar">
@@ -772,7 +689,6 @@ footer {
   </div>
 </section>
 
-<!-- MANIFESTO -->
 <section class="manifesto">
   <div class="manifesto-inner section-inner">
     <blockquote>
@@ -782,12 +698,10 @@ footer {
   </div>
 </section>
 
-<!-- FEATURES -->
 <section id="features">
   <div class="section-inner">
     <p class="feat-label reveal">What makes it different</p>
     <ul class="feat-list">
-
       <li class="feat-item reveal">
         <div class="feat-copy">
           <p class="feat-num">01</p>
@@ -847,73 +761,23 @@ footer {
           </div>
         </div>
       </li>
-
     </ul>
   </div>
 </section>
 
-<!-- CTA -->
-<section id="cta">
-  <div class="cta-inner section-inner">
+<footer>
+  <div class="cta-inner">
     <h2 class="cta-h">Ready to just <em>talk?</em></h2>
     <a href="#" class="btn btn-cta">Create an account</a>
   </div>
-</section>
-
-<!-- FOOTER -->
-<footer id="security">
-  <div class="footer-top">
-    <div>
-      <p class="footer-brand">Kavrylo</p>
-      <p class="footer-tagline">Messaging, simplified.</p>
-    </div>
-
-    <div class="footer-cols">
-      <div class="footer-col">
-        <h4>Product</h4>
-        <ul>
-          <li><a href="#features">How it works</a></li>
-          <li><a href="#security">Security</a></li>
-          <li><a href="#">Download</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h4>Security</h4>
-        <ul>
-          <li><a href="#">End-to-end encryption</a></li>
-          <li><a href="#">Data residency</a></li>
-          <li><a href="#">Bug bounty</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h4>Company</h4>
-        <ul>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Blog</a></li>
-          <li><a href="#">Contact</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h4>Legal</h4>
-        <ul>
-          <li><a href="privacy.html">Privacy Policy</a></li>
-          <li><a href="legal.html">Terms of Use</a></li>
-          <li><a href="legal.html#mentions">Legal Notice</a></li>
-          <li><a href="legal.html#cookies">Cookie Policy</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
+  
   <div class="footer-bottom">
-    <p class="footer-copy">&copy; 2026 Kavrylo SAS. All rights reserved.</p>
+    <p class="footer-copy">&copy; 2026 Kavrylo. Released under the <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener" style="text-decoration:underline;text-underline-offset:3px;transition:color 0.15s;" onmouseover="this.style.color='var(--white)'" onmouseout="this.style.color=''">MIT License</a>.</p>
     <nav class="footer-legal-links">
       <a href="privacy.html">Privacy</a>
       <a href="legal.html">Terms</a>
       <a href="legal.html#mentions">Legal Notice</a>
+      <a href="legal.html#cookies">Cookies</a>
     </nav>
   </div>
 </footer>
@@ -929,6 +793,5 @@ footer {
   els.forEach(el => obs.observe(el));
 })();
 </script>
-
 </body>
 </html>

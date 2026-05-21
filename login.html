@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Kavrylo — Log in</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+
+:root {
+  --off-white: #f8f7f4;
+  --white:     #ffffff;
+  --ink:       #0a0a0a;
+  --ink-2:     #2a2a2a;
+  --ink-3:     #5a5a5a;
+  --ink-4:     #9a9a9a;
+  --rule:      rgba(10,10,10,0.08);
+  --rule-mid:  rgba(10,10,10,0.12);
+  --f-serif:   'Instrument Serif', Georgia, serif;
+  --f-sans:    'Geist', 'Helvetica Neue', Helvetica, sans-serif;
+  --ease-out:  cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+body {
+  background: var(--off-white);
+  color: var(--ink);
+  font-family: var(--f-sans);
+  font-weight: 400;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* grid bg */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--rule) 1px, transparent 1px),
+    linear-gradient(90deg, var(--rule) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 70% 80% at 50% 50%, black 20%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* top bar */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem clamp(1.5rem, 4vw, 3rem);
+  position: relative;
+  z-index: 10;
+  opacity: 0;
+  animation: rise 0.6s var(--ease-out) 0.05s forwards;
+}
+
+.logo {
+  font-family: var(--f-serif);
+  font-size: 1.25rem;
+  letter-spacing: -0.01em;
+}
+
+.topbar-link {
+  font-size: 0.8125rem;
+  color: var(--ink-3);
+  transition: color 0.15s;
+}
+.topbar-link:hover { color: var(--ink); }
+.topbar-link span {
+  color: var(--ink);
+  font-weight: 500;
+  margin-left: 0.2rem;
+}
+
+/* main */
+main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem clamp(1.5rem, 6vw, 4rem) 4rem;
+  position: relative;
+  z-index: 1;
+}
+
+.card {
+  background: var(--white);
+  border: 1px solid var(--rule-mid);
+  border-radius: 20px;
+  padding: clamp(2rem, 5vw, 3rem) clamp(2rem, 5vw, 3rem);
+  width: 100%;
+  max-width: 420px;
+  box-shadow:
+    0 1px 2px rgba(10,10,10,0.04),
+    0 8px 32px rgba(10,10,10,0.07),
+    0 32px 80px rgba(10,10,10,0.05);
+  opacity: 0;
+  transform: translateY(20px);
+  animation: rise 0.75s var(--ease-out) 0.2s forwards;
+}
+
+.card-head {
+  margin-bottom: 2rem;
+}
+
+.card-head h1 {
+  font-family: var(--f-serif);
+  font-size: 2rem;
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.5rem;
+}
+
+.card-head h1 em {
+  font-style: italic;
+  color: var(--ink-3);
+}
+
+.card-head p {
+  font-size: 0.875rem;
+  color: var(--ink-4);
+  font-weight: 300;
+}
+
+/* form */
+.field {
+  margin-bottom: 1rem;
+}
+
+label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-bottom: 0.5rem;
+}
+
+input[type="email"] {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  font-family: var(--f-sans);
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--ink);
+  background: var(--off-white);
+  border: 1px solid var(--rule-mid);
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.18s, box-shadow 0.18s, background 0.15s;
+  -webkit-font-smoothing: antialiased;
+}
+
+input[type="email"]::placeholder {
+  color: var(--ink-4);
+  font-weight: 300;
+}
+
+input[type="email"]:focus {
+  background: var(--white);
+  border-color: var(--ink);
+  box-shadow: 0 0 0 3px rgba(10,10,10,0.07);
+}
+
+.btn-submit {
+  width: 100%;
+  margin-top: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  font-family: var(--f-sans);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--white);
+  background: var(--ink);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  letter-spacing: 0.01em;
+  transition: background 0.18s var(--ease-out), transform 0.15s, box-shadow 0.18s;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-submit:hover {
+  background: var(--ink-2);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(10,10,10,0.18);
+}
+
+.btn-submit:active { transform: scale(0.98); }
+
+.label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.label-row label { margin-bottom: 0; }
+
+.forgot-link {
+  font-size: 0.75rem;
+  color: var(--ink-4);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.15s;
+  font-weight: 300;
+}
+.forgot-link:hover { color: var(--ink); }
+
+.password-wrap {
+  position: relative;
+}
+
+.password-wrap input[type="password"],
+.password-wrap input[type="text"] {
+  width: 100%;
+  padding: 0.7rem 2.75rem 0.7rem 1rem;
+  font-family: var(--f-sans);
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--ink);
+  background: var(--off-white);
+  border: 1px solid var(--rule-mid);
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.18s, box-shadow 0.18s, background 0.15s;
+}
+
+.password-wrap input::placeholder { color: var(--ink-4); font-weight: 300; }
+
+.password-wrap input:focus {
+  background: var(--white);
+  border-color: var(--ink);
+  box-shadow: 0 0 0 3px rgba(10,10,10,0.07);
+}
+
+.toggle-pw {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--ink-4);
+  display: flex;
+  align-items: center;
+  padding: 0;
+  transition: color 0.15s;
+}
+.toggle-pw:hover { color: var(--ink); }
+.btn-submit.loading { pointer-events: none; }
+.btn-submit.loading .btn-label { opacity: 0; }
+.btn-submit .btn-dots {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.btn-submit.loading .btn-dots { opacity: 1; }
+.btn-submit .btn-dots span {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.7);
+  animation: bounce 1.2s ease-in-out infinite;
+}
+.btn-submit .btn-dots span:nth-child(2) { animation-delay: 0.16s; }
+.btn-submit .btn-dots span:nth-child(3) { animation-delay: 0.32s; }
+
+
+
+/* footer note */
+.card-foot {
+  margin-top: 1.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--rule);
+  font-size: 0.775rem;
+  color: var(--ink-4);
+  font-weight: 300;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.card-foot a {
+  color: var(--ink-3);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.15s;
+}
+.card-foot a:hover { color: var(--ink); }
+
+@keyframes rise {
+  to { opacity: 1; transform: none; }
+}
+@keyframes bounce {
+  0%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-4px); }
+}
+
+@media (max-width: 480px) {
+  .card { border-radius: 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="index.html" class="logo">Kavrylo</a>
+  <a href="index.html" class="topbar-link">No account?<span>Sign up →</span></a>
+</div>
+
+<main>
+  <div class="card">
+    <div class="card-head">
+      <h1>Welcome<br/><em>back.</em></h1>
+      <p>Enter your email to receive a sign-in link.</p>
+    </div>
+
+    <div id="form-area">
+      <div class="field">
+        <label for="email">Email address</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" />
+      </div>
+
+      <div class="field">
+        <div class="label-row">
+          <label for="password">Password</label>
+          <a href="forgot.html" class="forgot-link">Forgot password?</a>
+        </div>
+        <div class="password-wrap">
+          <input type="password" id="password" name="password" placeholder="••••••••" autocomplete="current-password" />
+          <button class="toggle-pw" type="button" onclick="togglePassword()" aria-label="Show password">
+            <svg id="eye-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 8C1 8 3.5 3 8 3C12.5 3 15 8 15 8C15 8 12.5 13 8 13C3.5 13 1 8 1 8Z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+              <circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.25"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <button class="btn-submit" id="submit-btn" onclick="handleSubmit()">
+        <span class="btn-label">Log in</span>
+        <span class="btn-dots" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </span>
+      </button>
+    </div>
+
+    <div class="card-foot">
+      By continuing, you agree to our <a href="legal.html">Terms</a> and <a href="privacy.html">Privacy Policy</a>.
+    </div>
+  </div>
+</main>
+
+<script>
+function handleSubmit() {
+  const emailInput = document.getElementById('email');
+  const passwordInput = document.getElementById('password');
+  const btn = document.getElementById('submit-btn');
+
+  const email = emailInput.value.trim();
+  const password = passwordInput.value;
+
+  if (!email || !email.includes('@')) {
+    shake(emailInput); return;
+  }
+  if (!password) {
+    shake(passwordInput); return;
+  }
+
+  btn.classList.add('loading');
+  // hook up your auth logic here
+}
+
+function shake(el) {
+  el.style.borderColor = 'rgba(10,10,10,0.35)';
+  el.style.animation = 'none';
+  el.focus();
+  setTimeout(() => { el.style.borderColor = ''; }, 1600);
+}
+
+function togglePassword() {
+  const input = document.getElementById('password');
+  const icon = document.getElementById('eye-icon');
+  if (input.type === 'password') {
+    input.type = 'text';
+    icon.innerHTML = `<path d="M2 2L14 14M6.5 6.71A2 2 0 009.3 9.5M1 8C1 8 3.5 3 8 3c.93 0 1.8.18 2.6.47M15 8c0 0-.9 1.8-2.6 3.03M11 11c-.85.63-1.9 1-3 1-4.5 0-7-5-7-5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>`;
+  } else {
+    input.type = 'password';
+    icon.innerHTML = `<path d="M1 8C1 8 3.5 3 8 3C12.5 3 15 8 15 8C15 8 12.5 13 8 13C3.5 13 1 8 1 8Z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.25"/>`;
+  }
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') handleSubmit();
+});
+</script>
+</body>
+</html>

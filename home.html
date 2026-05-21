@@ -10,7 +10,7 @@
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { font-size: 16px; height: 100%; }
-
+ 
 :root {
   --off-white: #f8f7f4;
   --white:     #ffffff;
@@ -25,7 +25,7 @@ html { font-size: 16px; height: 100%; }
   --f-sans:    'Geist', 'Helvetica Neue', Helvetica, sans-serif;
   --ease-out:  cubic-bezier(0.22, 1, 0.36, 1);
 }
-
+ 
 body {
   visibility: hidden;
   background: var(--ink);
@@ -40,7 +40,7 @@ body {
   overflow: hidden;
   position: relative;
 }
-
+ 
 /* ── NOISE OVERLAY ── */
 body::after {
   content: '';
@@ -51,7 +51,7 @@ body::after {
   z-index: 100;
   opacity: 0.35;
 }
-
+ 
 /* ── RADIAL GLOW ── */
 .glow {
   position: fixed;
@@ -70,12 +70,12 @@ body::after {
   z-index: 0;
   animation: breathe 8s ease-in-out infinite;
 }
-
+ 
 @keyframes breathe {
   0%, 100% { transform: translate(-50%, -54%) scale(1);   opacity: 1; }
   50%       { transform: translate(-50%, -54%) scale(1.06); opacity: 0.7; }
 }
-
+ 
 /* ── GRID ── */
 .grid-bg {
   position: fixed;
@@ -88,7 +88,7 @@ body::after {
   pointer-events: none;
   z-index: 0;
 }
-
+ 
 /* ── TOPBAR ── */
 header {
   display: flex;
@@ -101,20 +101,20 @@ header {
   animation: rise 0.7s var(--ease-out) 0.1s forwards;
   border-bottom: 1px solid rgba(255,255,255,0.06);
 }
-
+ 
 .logo {
   font-family: var(--f-serif);
   font-size: 1.25rem;
   letter-spacing: -0.01em;
   color: var(--white);
 }
-
+ 
 .header-right {
   display: flex;
   align-items: center;
   gap: 1.25rem;
 }
-
+ 
 .user-pill {
   display: flex;
   align-items: center;
@@ -124,7 +124,7 @@ header {
   border-radius: 100px;
   padding: 0.35rem 0.75rem 0.35rem 0.45rem;
 }
-
+ 
 .user-avatar {
   width: 22px; height: 22px;
   border-radius: 50%;
@@ -136,7 +136,7 @@ header {
   color: rgba(255,255,255,0.7);
   flex-shrink: 0;
 }
-
+ 
 .user-email {
   font-size: 0.775rem;
   color: rgba(255,255,255,0.5);
@@ -146,7 +146,7 @@ header {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-
+ 
 .btn-signout {
   font-family: var(--f-sans);
   font-size: 0.775rem;
@@ -164,7 +164,7 @@ header {
 }
 .btn-signout:hover { color: rgba(255,255,255,0.75); }
 .btn-signout svg { opacity: 0.6; }
-
+ 
 /* ── MAIN ── */
 main {
   display: flex;
@@ -176,7 +176,7 @@ main {
   padding: 4rem clamp(1.5rem, 6vw, 4rem);
   text-align: center;
 }
-
+ 
 /* ── STATUS BADGE ── */
 .status-badge {
   display: inline-flex;
@@ -194,19 +194,19 @@ main {
   opacity: 0;
   animation: rise 0.7s var(--ease-out) 0.3s forwards;
 }
-
+ 
 .status-dot {
   width: 5px; height: 5px;
   border-radius: 50%;
   background: #f59e0b;
   animation: blink 2.5s ease-in-out infinite;
 }
-
+ 
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0.3; }
 }
-
+ 
 /* ── HEADING ── */
 .headline {
   font-family: var(--f-serif);
@@ -219,12 +219,12 @@ main {
   opacity: 0;
   animation: rise 0.9s var(--ease-out) 0.45s forwards;
 }
-
+ 
 .headline em {
   font-style: italic;
   color: rgba(255,255,255,0.3);
 }
-
+ 
 /* ── BODY TEXT ── */
 .body-text {
   font-size: clamp(0.9rem, 1.8vw, 1rem);
@@ -236,7 +236,7 @@ main {
   opacity: 0;
   animation: rise 0.8s var(--ease-out) 0.6s forwards;
 }
-
+ 
 /* ── FEATURE CARDS ── */
 .cards {
   display: flex;
@@ -248,7 +248,7 @@ main {
   opacity: 0;
   animation: rise 0.8s var(--ease-out) 0.75s forwards;
 }
-
+ 
 .card {
   flex: 1;
   min-width: 140px;
@@ -262,7 +262,7 @@ main {
   position: relative;
   overflow: hidden;
 }
-
+ 
 .card::before {
   content: '';
   position: absolute;
@@ -271,7 +271,7 @@ main {
   transition: background 0.2s;
 }
 .card:hover::before { background: rgba(255,255,255,0.025); }
-
+ 
 .card-icon {
   width: 36px; height: 36px;
   border-radius: 10px;
@@ -280,16 +280,16 @@ main {
   display: flex; align-items: center; justify-content: center;
   margin-bottom: 0.25rem;
 }
-
+ 
 .card-icon svg { opacity: 0.5; }
-
+ 
 .card-title {
   font-size: 0.8rem;
   font-weight: 500;
   color: rgba(255,255,255,0.5);
   letter-spacing: 0.01em;
 }
-
+ 
 .card-sub {
   font-size: 0.72rem;
   color: rgba(255,255,255,0.2);
@@ -297,7 +297,7 @@ main {
   text-align: center;
   line-height: 1.5;
 }
-
+ 
 /* ── FOOTER ── */
 footer {
   position: relative;
@@ -310,18 +310,18 @@ footer {
   opacity: 0;
   animation: rise 0.6s var(--ease-out) 0.9s forwards;
 }
-
+ 
 .footer-note {
   font-size: 0.72rem;
   color: rgba(255,255,255,0.18);
   font-weight: 300;
   letter-spacing: 0.02em;
 }
-
+ 
 @keyframes rise {
   to { opacity: 1; transform: none; }
 }
-
+ 
 /* ── RESPONSIVE ── */
 @media (max-width: 600px) {
   .cards { flex-direction: column; gap: 1px; }
@@ -332,10 +332,10 @@ footer {
 </style>
 </head>
 <body>
-
+ 
 <div class="glow"></div>
 <div class="grid-bg"></div>
-
+ 
 <header>
   <span class="logo">Kavrylo</span>
   <div class="header-right">
@@ -351,19 +351,19 @@ footer {
     </button>
   </div>
 </header>
-
+ 
 <main>
   <div class="status-badge">
     <span class="status-dot"></span>
     In development
   </div>
-
+ 
   <h1 class="headline">Almost<br/><em>there.</em></h1>
-
+ 
   <p class="body-text">
     Kavrylo is being built right now. Messaging is coming — no bloat, no noise, just conversations. You'll be the first to know.
   </p>
-
+ 
   <div class="cards">
     <div class="card">
       <div class="card-icon">
@@ -396,11 +396,11 @@ footer {
     </div>
   </div>
 </main>
-
+ 
 <footer>
   <p class="footer-note">&copy; 2026 Kavrylo &mdash; All rights reserved</p>
 </footer>
-
+ 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   const { createClient } = supabase;
@@ -408,7 +408,7 @@ footer {
     'https://iqozznfvijvkhuynmoio.supabase.co',
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlxb3p6bmZ2aWp2a2h1eW5tb2lvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyOTM4ODMsImV4cCI6MjA5NDg2OTg4M30.6fX0tVX6OxyQbCkA6KmRtqKGTnM6mnsQcz0ytv-Jzk8'
   );
-
+ 
   (async () => {
     const { data: { session } } = await _supabase.auth.getSession();
     if (!session) {
@@ -420,7 +420,7 @@ footer {
     document.getElementById('user-email').textContent = email;
     document.getElementById('user-avatar').textContent = email.slice(0, 2).toUpperCase();
   })();
-
+ 
   async function signOut() {
     await _supabase.auth.signOut();
     window.location.href = 'login.html';

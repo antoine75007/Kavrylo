@@ -1,123 +1,430 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Page Bidon</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Kavrylo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; height: 100%; }
 
-  <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:Arial, sans-serif;
-    }
+:root {
+  --off-white: #f8f7f4;
+  --white:     #ffffff;
+  --ink:       #0a0a0a;
+  --ink-2:     #2a2a2a;
+  --ink-3:     #5a5a5a;
+  --ink-4:     #9a9a9a;
+  --ink-5:     #c8c8c8;
+  --rule:      rgba(10,10,10,0.07);
+  --rule-mid:  rgba(10,10,10,0.11);
+  --f-serif:   'Instrument Serif', Georgia, serif;
+  --f-sans:    'Geist', 'Helvetica Neue', Helvetica, sans-serif;
+  --ease-out:  cubic-bezier(0.22, 1, 0.36, 1);
+}
 
-    body{
-      background:#0f172a;
-      color:white;
-      min-height:100vh;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      overflow:hidden;
-    }
+body {
+  visibility: hidden;
+  background: var(--ink);
+  color: var(--white);
+  font-family: var(--f-sans);
+  font-weight: 400;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  overflow: hidden;
+  position: relative;
+}
 
-    .blob{
-      position:absolute;
-      width:400px;
-      height:400px;
-      background:linear-gradient(45deg,#7c3aed,#06b6d4);
-      filter:blur(120px);
-      opacity:0.5;
-      border-radius:50%;
-      animation:move 8s infinite alternate ease-in-out;
-    }
+/* ── NOISE OVERLAY ── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0.35;
+}
 
-    @keyframes move{
-      from{
-        transform:translate(-100px,-50px);
-      }
-      to{
-        transform:translate(100px,50px);
-      }
-    }
+/* ── RADIAL GLOW ── */
+.glow {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -54%);
+  width: 900px;
+  height: 900px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center,
+    rgba(248,247,244,0.055) 0%,
+    rgba(248,247,244,0.02) 35%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 0;
+  animation: breathe 8s ease-in-out infinite;
+}
 
-    .card{
-      position:relative;
-      z-index:2;
-      background:rgba(255,255,255,0.08);
-      backdrop-filter:blur(12px);
-      border:1px solid rgba(255,255,255,0.15);
-      padding:40px;
-      border-radius:24px;
-      width:90%;
-      max-width:500px;
-      text-align:center;
-      box-shadow:0 10px 40px rgba(0,0,0,0.4);
-    }
+@keyframes breathe {
+  0%, 100% { transform: translate(-50%, -54%) scale(1);   opacity: 1; }
+  50%       { transform: translate(-50%, -54%) scale(1.06); opacity: 0.7; }
+}
 
-    h1{
-      font-size:3rem;
-      margin-bottom:15px;
-    }
+/* ── GRID ── */
+.grid-bg {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 10%, transparent 80%);
+  pointer-events: none;
+  z-index: 0;
+}
 
-    p{
-      color:#cbd5e1;
-      margin-bottom:25px;
-      line-height:1.6;
-    }
+/* ── TOPBAR ── */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.75rem clamp(1.5rem, 4vw, 3rem);
+  position: relative;
+  z-index: 10;
+  opacity: 0;
+  animation: rise 0.7s var(--ease-out) 0.1s forwards;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
 
-    button{
-      background:white;
-      color:#0f172a;
-      border:none;
-      padding:14px 28px;
-      border-radius:999px;
-      cursor:pointer;
-      font-weight:bold;
-      transition:0.3s;
-    }
+.logo {
+  font-family: var(--f-serif);
+  font-size: 1.25rem;
+  letter-spacing: -0.01em;
+  color: var(--white);
+}
 
-    button:hover{
-      transform:scale(1.05);
-      opacity:0.9;
-    }
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
 
-    .footer{
-      margin-top:25px;
-      font-size:0.85rem;
-      color:#94a3b8;
-    }
-  </style>
+.user-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 100px;
+  padding: 0.35rem 0.75rem 0.35rem 0.45rem;
+}
+
+.user-avatar {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: rgba(255,255,255,0.7);
+  flex-shrink: 0;
+}
+
+.user-email {
+  font-size: 0.775rem;
+  color: rgba(255,255,255,0.5);
+  font-weight: 300;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.btn-signout {
+  font-family: var(--f-sans);
+  font-size: 0.775rem;
+  font-weight: 400;
+  color: rgba(255,255,255,0.4);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.3rem 0;
+  transition: color 0.15s;
+  letter-spacing: 0.01em;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.btn-signout:hover { color: rgba(255,255,255,0.75); }
+.btn-signout svg { opacity: 0.6; }
+
+/* ── MAIN ── */
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  padding: 4rem clamp(1.5rem, 6vw, 4rem);
+  text-align: center;
+}
+
+/* ── STATUS BADGE ── */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 100px;
+  padding: 0.3rem 0.9rem;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  margin-bottom: 3rem;
+  opacity: 0;
+  animation: rise 0.7s var(--ease-out) 0.3s forwards;
+}
+
+.status-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: #f59e0b;
+  animation: blink 2.5s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
+
+/* ── HEADING ── */
+.headline {
+  font-family: var(--f-serif);
+  font-size: clamp(3rem, 9vw, 6.5rem);
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  color: var(--white);
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: rise 0.9s var(--ease-out) 0.45s forwards;
+}
+
+.headline em {
+  font-style: italic;
+  color: rgba(255,255,255,0.3);
+}
+
+/* ── BODY TEXT ── */
+.body-text {
+  font-size: clamp(0.9rem, 1.8vw, 1rem);
+  color: rgba(255,255,255,0.35);
+  font-weight: 300;
+  line-height: 1.75;
+  max-width: 400px;
+  margin-bottom: 3.5rem;
+  opacity: 0;
+  animation: rise 0.8s var(--ease-out) 0.6s forwards;
+}
+
+/* ── FEATURE CARDS ── */
+.cards {
+  display: flex;
+  gap: 1px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
+  overflow: hidden;
+  opacity: 0;
+  animation: rise 0.8s var(--ease-out) 0.75s forwards;
+}
+
+.card {
+  flex: 1;
+  min-width: 140px;
+  padding: 1.5rem 1.75rem;
+  background: rgba(255,255,255,0.02);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  transition: background 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0);
+  transition: background 0.2s;
+}
+.card:hover::before { background: rgba(255,255,255,0.025); }
+
+.card-icon {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 0.25rem;
+}
+
+.card-icon svg { opacity: 0.5; }
+
+.card-title {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.01em;
+}
+
+.card-sub {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.2);
+  font-weight: 300;
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* ── FOOTER ── */
+footer {
+  position: relative;
+  z-index: 10;
+  padding: 1.5rem clamp(1.5rem, 4vw, 3rem);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  animation: rise 0.6s var(--ease-out) 0.9s forwards;
+}
+
+.footer-note {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.18);
+  font-weight: 300;
+  letter-spacing: 0.02em;
+}
+
+@keyframes rise {
+  to { opacity: 1; transform: none; }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  .cards { flex-direction: column; gap: 1px; }
+  .card { flex-direction: row; align-items: flex-start; gap: 1rem; text-align: left; }
+  .card-sub { text-align: left; }
+  .user-email { display: none; }
+}
+</style>
 </head>
-
 <body>
 
-  <div class="blob"></div>
+<div class="glow"></div>
+<div class="grid-bg"></div>
 
-  <div class="card">
-    <h1>Page Bidon™</h1>
-
-    <p>
-      Ceci est une page HTML totalement inutile…
-      mais étrangement stylée.
-    </p>
-
-    <button onclick="fakeAction()">
-      Clique sans raison
-    </button>
-
-    <div class="footer">
-      Version 0.0.1 — Aucun bug connu. Aucun intérêt non plus.
+<header>
+  <span class="logo">Kavrylo</span>
+  <div class="header-right">
+    <div class="user-pill">
+      <div class="user-avatar" id="user-avatar"></div>
+      <span class="user-email" id="user-email"></span>
     </div>
+    <button class="btn-signout" onclick="signOut()">
+      <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+        <path d="M5 2H2.5A1 1 0 001.5 3v7a1 1 0 001 1H5M9 9.5l3-3-3-3M11.5 6.5H5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Sign out
+    </button>
+  </div>
+</header>
+
+<main>
+  <div class="status-badge">
+    <span class="status-dot"></span>
+    In development
   </div>
 
-  <script>
-    function fakeAction(){
-      alert("Bravo. Tu viens d'interagir avec du vide numérique.");
-    }
-  </script>
+  <h1 class="headline">Almost<br/><em>there.</em></h1>
 
+  <p class="body-text">
+    Kavrylo is being built right now. Messaging is coming — no bloat, no noise, just conversations. You'll be the first to know.
+  </p>
+
+  <div class="cards">
+    <div class="card">
+      <div class="card-icon">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M2 3.5A1.5 1.5 0 013.5 2h9A1.5 1.5 0 0114 3.5v6A1.5 1.5 0 0112.5 11H9l-3 3v-3H3.5A1.5 1.5 0 012 9.5v-6z" stroke="white" stroke-width="1.2" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <span class="card-title">Messaging</span>
+      <span class="card-sub">Direct &amp; group conversations</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <rect x="2" y="2" width="12" height="12" rx="3" stroke="white" stroke-width="1.2"/>
+          <path d="M5 8h6M8 5v6" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <span class="card-title">Spaces</span>
+      <span class="card-sub">Rooms for teams &amp; projects</span>
+    </div>
+    <div class="card">
+      <div class="card-icon">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <circle cx="8" cy="8" r="6" stroke="white" stroke-width="1.2"/>
+          <path d="M8 5v3.5l2 2" stroke="white" stroke-width="1.2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <span class="card-title">History</span>
+      <span class="card-sub">Secure message archive</span>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <p class="footer-note">&copy; 2026 Kavrylo &mdash; All rights reserved</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const { createClient } = supabase;
+  const _supabase = createClient(
+    'https://iqozznfvijvkhuynmoio.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlxb3p6bmZ2aWp2a2h1eW5tb2lvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyOTM4ODMsImV4cCI6MjA5NDg2OTg4M30.6fX0tVX6OxyQbCkA6KmRtqKGTnM6mnsQcz0ytv-Jzk8'
+  );
+
+  (async () => {
+    const { data: { session } } = await _supabase.auth.getSession();
+    if (!session) {
+      window.location.href = 'login.html';
+      return;
+    }
+    document.body.style.visibility = 'visible';
+    const email = session.user.email;
+    document.getElementById('user-email').textContent = email;
+    document.getElementById('user-avatar').textContent = email.slice(0, 2).toUpperCase();
+  })();
+
+  async function signOut() {
+    await _supabase.auth.signOut();
+    window.location.href = 'login.html';
+  }
+</script>
 </body>
 </html>
